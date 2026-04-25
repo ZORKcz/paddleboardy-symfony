@@ -1,3 +1,15 @@
+/vendor/
+/var/
+/.env.local
+/.env.local.php
+/.env.test.local
+/.env.dev.local
+
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*

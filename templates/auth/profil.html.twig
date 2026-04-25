@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Můj profil – Paddleboardy{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/prihlaseni.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/rezervace.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profil.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="auth-dual-section">
+        <div class="container-main">
+
+            {% for message in app.flashes('success') %}
+                <div style="background:#2ecc71;color:white;padding:15px;border-radius:10px;margin-bottom:20px;text-align:center;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="profil-grid">
+
+                <div class="booking-card fade-in profil-levy-panel">
+                    <div class="profil-avatar">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <h3 class="profil-jmeno">
+                        {{ zakaznik.jmeno ?: 'Nový' }} {{ zakaznik.prijmeni ?: 'zákazník' }}
+                    </h3>
+                    <span class="profil-email">{{ zakaznik.email }}</span>
+                    <span class="profil-badge">
+                        <i class="fa-solid fa-circle" style="font-size:7px;vertical-align:middle;margin-right:5px;color:#2ecc71;"></i>Aktivní účet
+                    </span>
+
+                    <hr class="profil-divider">
+
+                    <div class="profil-stats">
+                        <div class="profil-stat">
+                            <div class="profil-stat-number">0</div>
+                            <div class="profil-stat-label">Rezervace</div>
+                        </div>
+                        <div class="profil-stat">
+                            <div class="profil-stat-number">0</div>
+                            <div class="profil-stat-label">Odpádlováno h</div>
+                        </div>
+                    </div>
+
+                    <hr class="profil-divider" style="margin-top:0;">
+
+                    <a href="{{ path('odhlasit') }}" class="profil-odhlasit">
+                        <i class="fa-solid fa-right-from-bracket"></i> Odhlásit se
+                    </a>
+                </div>
+
+                <div>
+
+                    <div class="booking-card fade-in profil-card-mb">
+                        <div class="profil-card-header">
+                            <div class="profil-card-header-icon">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                            <div>
+                                <h3>Osobní údaje</h3>
+                                <p>Uprav své kontaktní informace</p>
+                            </div>
+                        </div>
+
+                        <form action="#" method="POST">
+                            <div class="profil-formular-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Jméno</label>
+                                    <input type="text" name="jmeno" class="form-input" value="{{ zakaznik.jmeno }}" placeholder="Tvoje jméno">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Příjmení</label>
+                                    <input type="text" name="prijmeni" class="form-input" value="{{ zakaznik.prijmeni }}" placeholder="Tvoje příjmení">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">E-mail</label>
+                                    <input type="email" name="email" class="form-input" value="{{ zakaznik.email }}" required placeholder="email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Telefon</label>
+                                    <input type="text" name="telefon" class="form-input" value="{{ zakaznik.telefon }}" placeholder="+420 123 456 789">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top:16px;">
+                                <label class="form-label">Poznámka</label>
+                                <textarea name="poznamka" class="form-input" rows="3" placeholder="Cokoliv, co bychom o tobě měli vědět...">{{ zakaznik.poznamka }}</textarea>
+                            </div>
+                            <div class="profil-submit-row">
+                                <span class="profil-submit-hint">
+                                    <i class="fa-solid fa-lock" style="font-size:11px;"></i>
+                                    Údaje jsou v bezpečí
+                                </span>
+                                <button type="submit" class="cta-button" style="border:none;cursor:pointer;padding:12px 28px;font-size:15px;">
+                                    <i class="fa-solid fa-check" style="margin-right:8px;"></i>Uložit údaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="booking-card fade-in">
+                        <div class="profil-card-header">
+                            <div class="profil-card-header-icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <div>
+                                <h3>Moje rezervace</h3>
+                                <p>Přehled všech tvých výpůjček</p>
+                            </div>
+                        </div>
+
+                        <div class="profil-zadne-rezervace">
+                            <div class="profil-zadne-rezervace-icon">
+                                <i class="fa-solid fa-calendar-xmark"></i>
+                            </div>
+                            <h4>Zatím žádné rezervace</h4>
+                            <p>Ještě jsi si nic nerezervoval. Čeká tě první dobrodružství!</p>
+                            <a href="{{ path('rezervace') }}" class="cta-button">
+                                <i class="fa-solid fa-plus"></i> Vytvořit rezervaci
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <svg aria-hidden="true" viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-auth">
+            <path d="M0,64 C240,160 480,0 720,64 960,128 1200,32 1440,96 L1440,120 L0,120 Z"></path>
+        </svg>
+    </section>
+{% endblock %}

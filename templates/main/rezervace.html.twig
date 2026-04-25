@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rezervace – Paddleboardy{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/rezervace.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="auth-dual-section">
+        <div class="container-main">
+
+            <h1 style="color: white; margin-bottom: 30px; font-weight: 800;">Nová rezervace</h1>
+
+            <form action="#" class="reservation-grid">
+                <div class="booking-section">
+
+                    <div class="booking-card fade-in">
+                        <h3>Kdy a kde?</h3>
+                        <div class="form-group">
+                            <label class="form-label">Vyber lokalitu</label>
+                            <select class="form-input" id="location-select" name="stanice_id">
+                                {% for stanice_item in stanice %}
+                                    <option value="{{ stanice_item.id }}">{{ stanice_item.nazev }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-row-split">
+                            <div>
+                                <label class="form-label">Datum</label>
+                                <input type="date" class="form-input" name="datum" id="date-select">
+                            </div>
+                            <div>
+                                <label class="form-label">Čas začátku</label>
+                                <select class="form-input" name="cas" id="time-select">
+                                    <option>08:00</option>
+                                    <option>09:00</option>
+                                    <option>10:00</option>
+                                    <option>11:00</option>
+                                    <option>12:00</option>
+                                    <option>13:00</option>
+                                    <option>14:00</option>
+                                    <option>15:00</option>
+                                    <option>16:00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-card fade-in">
+                        <h3>Výběr setu</h3>
+                        <div class="form-group">
+                            <label class="form-label">Na jak dlouho?</label>
+                            <select class="form-input" id="hours-select" name="hodiny">
+                                <option value="1">1 hodina</option>
+                                <option value="2">2 hodiny</option>
+                                <option value="3">3 hodiny</option>
+                                <option value="4">4 hodiny</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Vyber vybavení (můžeš vybrat více)</label>
+                            <div class="package-grid">
+                                {% for produkt in produkty %}
+                                    <div class="package-card" onclick="toggleProdukt(this)">
+                                        <input type="checkbox"
+                                               name="produkt_ids[]"
+                                               value="{{ produkt.id }}"
+                                               style="display:none;">
+                                        <div class="package-info">
+                                            <h4>{{ produkt.nazev }}</h4>
+                                            <p>{{ produkt.popis }}</p>
+                                        </div>
+                                        <div class="package-price">{{ produkt.doporucenaCena }} Kč/hod</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sticky-sidebar">
+                    <h3 style="color: var(--color-primary); margin-bottom: 20px;">Souhrn rezervace</h3>
+                    <div class="summary-row">
+                        <span id="summary-location">Máchovo jezero</span>
+                    </div>
+                    <div class="summary-row">
+                        <span id="summary-date">Dnes</span>
+                        <span id="summary-time">09:00</span>
+                    </div>
+                    <div style="margin: 20px 0; border-top: 1px dashed #ced4da;"></div>
+                    <div class="summary-row">
+                        <span style="font-weight: 600;" id="summary-produkty">
+                            <span style="color: #adb5bd;">Žádný produkt vybrán</span>
+                        </span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Celkem</span>
+                        <span id="total-price">0 Kč</span>
+                    </div>
+                    <button type="submit" class="cta-button" style="width:100%;border:none;margin-top:20px;font-size:16px;cursor:pointer;">
+                        Pokračovat k platbě
+                    </button>
+                    <p style="text-align:center;font-size:12px;color:#adb5bd;margin-top:15px;">
+                        <i class="fa-solid fa-lock"></i> Bezpečná platba kartou
+                    </p>
+                </div>
+            </form>
+        </div>
+        <svg aria-hidden="true" viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-auth">
+            <path d="M0,64 C240,160 480,0 720,64 960,128 1200,32 1440,96 L1440,120 L0,120 Z"></path>
+        </svg>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('active', checkbox.checked);
+                    updateSouhrn();
+                });
+            });
+
+            function updateSouhrn() {
+                const vybrane = document.querySelectorAll('.package-card.active');
+                const souhrn = document.getElementById('summary-produkty');
+
+                souhrn.innerHTML = '';
+
+                if (vybrane.length === 0) {
+                    souhrn.innerHTML = '<span style="color: #adb5bd;">Žádný produkt vybrán</span>';
+                    return;
+                }
+
+                vybrane.forEach(card => {
+                    const nazev = card.querySelector('h4').textContent;
+                    const cena = card.querySelector('.package-price').textContent;
+                    const radek = document.createElement('div');
+                    radek.style.cssText = 'display:flex; justify-content:space-between; margin-bottom:8px;';
+                    radek.innerHTML = `<span>${nazev}</span><span>${cena}</span>`;
+                    souhrn.appendChild(radek);
+                });
+            }
+
+            updateSouhrn();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,426 @@
+/*Základní nastavení a proměnné*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #1F3A5F;
+    --color-accent: #4CA3FF;
+    --color-dark: #1a2332;
+    --color-light-bg: #F5F7FA;
+    --color-success: #23B26D;
+    --color-white: #FFFFFF;
+    --font-main: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    --header-height: 90px;
+}
+
+/* Globální styly */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-dark);
+    overflow-x: hidden;
+    background: #fff;
+}
+
+/* Kontejnery */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+}
+
+.container-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Hlavička */
+header {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 20px;
+    background-color: var(--color-white);
+    animation: header-shade linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@keyframes header-shade {
+    to {
+        background-color: rgba(31, 58, 95, 0.95);
+    }
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--color-primary);
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+    transition: color 0.2s;
+    white-space: nowrap;
+    animation: text-contrast linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+/* Navigace */
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    transition: color 0.2s;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+    animation: text-contrast linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+.nav-links a:hover {
+    color: var(--color-accent);
+}
+
+.nav-divider {
+    width: 1px;
+    height: 28px;
+    background-color: rgba(31, 58, 95, 0.2);
+
+    animation: divider-contrast linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+@keyframes divider-contrast {
+    to {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Tlačítka */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.login-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: text-contrast linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+.login-link:hover {
+    color: var(--color-accent);
+    opacity: 0.8;
+}
+
+/* CTA - call to action, neboli to, co by mělo být nejdůležitější na stránce, což je pro mě rezervace */
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: var(--color-white) !important;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(76, 163, 255, 0.3);
+    transition: all 0.2s ease;
+    font-size: 17px;
+    text-shadow: none !important;
+    white-space: nowrap;
+}
+
+.cta-button:hover {
+    box-shadow: 0 6px 15px rgba(76, 163, 255, 0.5);
+    background-color: #3a8ee6;
+}
+
+@keyframes text-contrast {
+    to {
+        color: var(--color-white);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Patička */
+footer {
+    background-color: #1a2a44;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 60px 0 30px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+footer h3 {
+    color: var(--color-white);
+    margin-bottom: 15px;
+}
+
+footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+}
+
+/* ANIMACE */
+.fade-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+}
+
+/* Pozadí, které je na všech stránkách */
+.auth-dual-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 180px;
+    padding-bottom: 120px;
+    background-image: linear-gradient(rgba(31, 58, 95, 0.7), rgba(31, 58, 95, 0.5)), url('../img/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.wave-auth {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    display: block;
+    pointer-events: none;
+}
+
+.wave-auth path {
+    fill: #1a2a44 !important;
+    transition: none;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    animation: hamburger-contrast linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 100px;
+}
+
+@keyframes hamburger-contrast {
+    to {
+        background-color: var(--color-white);
+    }
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    height: 100vh;
+    background-color: rgba(31, 58, 95, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 120px 40px 40px;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    right: 0;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.sidebar-links a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar-links a:hover {
+    color: var(--color-accent);
+    padding-left: 10px;
+}
+
+.sidebar .cta-button {
+    margin-top: 30px;
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    font-size: 18px;
+}
+
+.sidebar .login-link {
+    color: var(--color-white);
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: left;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar .login-link,
+.sidebar .login-link * {
+    color: var(--color-white) !important;
+    animation: none !important;
+}
+
+.sidebar .login-link i {
+    color: var(--color-white);
+}
+
+.sidebar .login-link:hover {
+    color: var(--color-accent);
+    padding-left: 10px;
+}
+
+/* Overlay pro zavření sidebaru */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsivita */
+@media (max-width: 992px) {
+
+    .nav-links,
+    .nav-divider,
+    .login-link,
+    .nav-actions .cta-button {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    header nav {
+        gap: 0;
+    }
+}
+
+@media (max-width: 968px) {
+
+    /* Patička pod sebe */
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .container-main {
+        padding: 0 20px;
+    }
+
+    .cta-button {
+        width: 100%;
+        text-align: center;
+    }
+}

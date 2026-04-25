@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Přihlášení – Paddleboardy{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/prihlaseni.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="auth-dual-section">
+        <div class="container">
+            <div class="auth-container-wide fade-in">
+
+                {% for message in app.flashes('success') %}
+                    <div style="background: #28a745; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('error') %}
+                    <div style="background: #ff4444; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <div class="auth-split-wrapper">
+                    <div class="auth-col">
+                        <h2>Přihlášení</h2>
+                        <p class="subtitle">Přihlášení pro stávající zákazníky.</p>
+
+                        <form action="{{ path('prihlasit') }}" method="POST">
+                            <div class="input-with-icon">
+                                <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+                                <input type="email" name="email" placeholder="E-mail" required>
+                            </div>
+                            <div class="input-with-icon">
+                                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                                <input type="password" name="heslo" placeholder="Heslo" required>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;">
+                                <button type="submit" class="btn-auth btn-primary">Přihlásit se</button>
+                                <a href="#" class="forgot-password">Zapomněli jste heslo?</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="auth-divider"></div>
+
+                    <div class="auth-col">
+                        <h2>Nový zákazník</h2>
+                        <p class="subtitle">Na zadaný e-mail vám zašleme potvrzení registrace.</p>
+
+                        <form action="{{ path('registrace') }}" method="POST">
+                            <div class="input-with-icon">
+                                <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+                                <input type="email" name="email" placeholder="E-mail" required>
+                            </div>
+                            <div class="form-options">
+                                <label class="form-check">
+                                    <input type="checkbox">
+                                    <span>Chci dostávat informace o novinkách.</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="souhlas" required>
+                                    <span>Souhlasím s <a href="#" style="color:var(--color-accent);">Obchodními podmínkami</a>.</span>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-auth btn-dark">Registrovat</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <svg aria-hidden="true" viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-auth">
+            <path d="M0,64 C240,160 480,0 720,64 960,128 1200,32 1440,96 L1440,120 L0,120 Z"></path>
+        </svg>
+    </section>
+{% endblock %}

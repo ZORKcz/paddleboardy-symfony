@@ -1,0 +1,194 @@
+/* Hlavní rozložení stránky (grid) */
+.reservation-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: stretch;
+}
+
+/* Levý sloupec (uživatel si vybírá, co se mu líbí)*/
+.booking-section {
+    background: transparent;
+    max-width: 100%;
+}
+
+.booking-card {
+    background: white;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+/* Nadpisy částí*/
+.booking-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 25px;
+    font-size: 19px;
+    font-weight: 700;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 15px;
+}
+
+/* Formuláře */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-primary);
+}
+
+.form-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-input {
+    width: 100%;
+    height: 60px;
+    padding: 10px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    background-color: #f8f9fa;
+    color: var(--color-dark);
+    font-size: 16px;
+    font-family: var(--font-main);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: var(--color-accent);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(76, 163, 255, 0.15);
+}
+
+select.form-input {
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+/* Výběr balíčků */
+.package-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.package-card {
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    min-height: 80px;
+}
+
+.package-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.package-card.active {
+    border-color: var(--color-accent);
+    background-color: rgba(76, 163, 255, 0.05);
+    box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* Detaily balíčků */
+.package-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 17px;
+    color: var(--color-primary);
+}
+
+.package-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #6c757d;
+}
+
+.package-price {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--color-primary);
+}
+
+.badge-premium {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+/* Pravý sloupec (sticky) */
+.sticky-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+    background: white;
+    padding: 35px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e9ecef;
+    width: 100%;
+    min-width: 360px;
+    box-sizing: border-box;
+    height: fit-content;
+    align-self: start;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #6c757d;
+}
+
+.summary-total {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 2px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--color-primary);
+}
+
+/* Responsivita */
+@media (max-width: 1100px) {
+    .reservation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sticky-sidebar {
+        position: static;
+        order: 2;
+        min-width: 0;
+    }
+
+    .form-row-split {
+        grid-template-columns: 1fr;
+    }
+}

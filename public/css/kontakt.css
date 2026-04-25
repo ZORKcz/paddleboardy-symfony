@@ -1,0 +1,112 @@
+/* Hlavní kontejner */
+.contact-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    padding: 50px 40px;
+}
+
+/* Hlavička */
+.contact-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.contact-header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.contact-header p {
+    font-size: 18px;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* Formulář */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Vstupní pole a popisky */
+.form-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: var(--font-main);
+    color: var(--color-dark);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(76, 163, 255, 0.15);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Tlačítko odeslat */
+.btn-submit {
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 163, 255, 0.3);
+    font-family: var(--font-main);
+}
+
+.btn-submit:hover {
+    background-color: #3a8ee6;
+    box-shadow: 0 6px 20px rgba(76, 163, 255, 0.4);
+}
+
+/* Responsivita */
+@media (max-width: 640px) {
+    .contact-container {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .contact-header h1 {
+        font-size: 28px;
+    }
+
+    .contact-header p {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Paddleboardy{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/spolecne.css') }}">
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header id="header">
+    <div class="container">
+        <a href="{{ path('homepage') }}" class="logo">PADDLEBOARDY</a>
+        <nav>
+            <div class="nav-links">
+                <a href="{{ path('homepage') }}#how">Jak to funguje</a>
+                <a href="{{ path('homepage') }}#locations">Lokality</a>
+                <a href="{{ path('homepage') }}#pricing">Ceník</a>
+            </div>
+            <div class="nav-divider"></div>
+
+            <div class="nav-actions">
+                {% if app.session.get('zakaznik_id') %}
+                    <a href="{{ path('profil') }}" class="login-link" style="color: var(--color-primary); font-weight: 600; margin-right: 15px;">
+                        <i class="fa-regular fa-user"></i> Můj profil
+                    </a>
+                    <a href="{{ path('rezervace') }}" class="cta-button">Rezervovat</a>
+                {% else %}
+                    <a href="{{ path('prihlaseni') }}" class="login-link">
+                        <i class="fa-regular fa-user"></i> Přihlášení
+                    </a>
+                    <a href="{{ path('rezervace') }}" class="cta-button">Rezervovat</a>
+                {% endif %}
+            </div>
+
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="sidebar-overlay"></div>
+<aside class="sidebar">
+    <div class="sidebar-links">
+        <a href="{{ path('homepage') }}">Úvodní stránka</a>
+        <a href="{{ path('homepage') }}#how">Jak to funguje</a>
+        <a href="{{ path('homepage') }}#locations">Lokality</a>
+        <a href="{{ path('homepage') }}#pricing">Ceník</a>
+
+        {% if app.session.get('zakaznik_id') %}
+            <div style="margin: 15px 0; border-top: 1px solid #eee;"></div>
+            <a href="{{ path('profil') }}" class="login-link" style="color: var(--color-primary); font-weight: 600;">
+                <i class="fa-regular fa-user"></i> Můj profil
+            </a>
+            <a href="{{ path('rezervace') }}" class="cta-button">Rezervovat</a>
+        {% else %}
+            <a href="{{ path('prihlaseni') }}" class="login-link">
+                <i class="fa-regular fa-user"></i> Přihlášení
+            </a>
+            <a href="{{ path('rezervace') }}" class="cta-button">Rezervovat</a>
+        {% endif %}
+    </div>
+</aside>
+
+{% block body %}{% endblock %}
+
+<footer>
+    <div class="container-main">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Kontakt</h3>
+                <p><strong>Telefon/WhatsApp:</strong> +420 123 456 789</p>
+                <p><a href="{{ path('kontakt') }}" style="color: var(--color-accent); text-decoration: underline;">Kontaktní formulář</a></p>
+            </div>
+            <div class="footer-col">
+                <h3>Jak k nám</h3>
+                <p>Detailní mapu najdete v sekci <a href="{{ path('homepage') }}#locations">Lokality</a>.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Sledujte nás</h3>
+                <p>Novinky, soutěže a fotky od vody.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Paddleboardy s.r.o. Všechna práva vyhrazena.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ asset('js/script.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

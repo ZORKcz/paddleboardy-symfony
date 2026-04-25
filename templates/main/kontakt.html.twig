@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kontakt – Paddleboardy{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/kontakt.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="auth-dual-section">
+        <div class="container">
+            <div class="contact-container fade-in">
+                <div class="contact-header">
+                    <h1>Kontaktujte nás</h1>
+                    <p>Máte dotaz nebo potřebujete pomoc? Napište nám.</p>
+                </div>
+                <form action="#" class="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">Jméno a příjmení</label>
+                        <input type="text" class="form-input" placeholder="Jan Novák" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" class="form-input" placeholder="vas@email.cz" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Vaše zpráva</label>
+                        <textarea class="form-textarea" rows="6" placeholder="Napište nám svůj dotaz..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Odeslat zprávu</button>
+                </form>
+            </div>
+        </div>
+        <svg aria-hidden="true" viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-auth">
+            <path d="M0,64 C240,160 480,0 720,64 960,128 1200,32 1440,96 L1440,120 L0,120 Z"></path>
+        </svg>
+    </section>
+{% endblock %}
