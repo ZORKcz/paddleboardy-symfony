@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Zakaznik;
 use App\Repository\ZakaznikRepository;
+use App\Service\ZakaznikManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,7 +111,8 @@ class AuthController extends AbstractController
     #[Route('/profil', name: 'profil')]
     public function profil(
         Request $request,
-        ZakaznikRepository $zakaznikRepository
+        ZakaznikRepository $zakaznikRepository,
+        ZakaznikManager $zakaznikManager
     ): Response
     {
         $zakaznikId = $request->getSession()->get('zakaznik_id');
@@ -122,6 +124,20 @@ class AuthController extends AbstractController
         }
 
         $zakaznik = $zakaznikRepository->find($zakaznikId);
+
+        if($request->isMethod('POST')){
+            $chyby = $zakaznikManager->aktualizujProfil($zakaznik, $request->request->all());
+
+            if(count($chyby) > 0){
+                foreach ($chyby as $chyba){
+                    $this->addFlash('error', $chyba);
+                }
+            } else {
+                $this->addFlash('success', 'Tvoje osobni udaje byly uspesne ulozeny');
+            }
+
+            return $this->redirectToRoute('profil');
+        }
 
         return $this->render('auth/profil.html.twig', [
             'zakaznik' => $zakaznik

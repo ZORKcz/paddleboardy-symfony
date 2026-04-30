@@ -6,6 +6,7 @@ use App\Repository\ZakaznikRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ZakaznikRepository::class)]
 class Zakaznik
@@ -22,9 +23,12 @@ class Zakaznik
     private ?string $prijmeni = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'E-mail nesmi byt prazdny')]
+    #[Assert\Email(message: 'Zadejte prosim platny format e-mailu')]
     private ?string $email = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(max: 20, maxMessage: 'Telefon muze mit maximalne 20 znaku')]
     private ?string $telefon = null;
 
     #[ORM\Column]
