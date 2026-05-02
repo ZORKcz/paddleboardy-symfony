@@ -12,7 +12,7 @@
 
             <h1 style="color: white; margin-bottom: 30px; font-weight: 800;">Nová rezervace</h1>
 
-            <form action="#" class="reservation-grid">
+            <form action="{{ path('zpracovat_rezervaci') }}" method="POST" class="reservation-grid">
                 <div class="booking-section">
 
                     <div class="booking-card fade-in">
@@ -61,21 +61,13 @@
 
                         <div class="form-group">
                             <label class="form-label">Vyber vybavení (můžeš vybrat více)</label>
-                            <div class="package-grid">
-                                {% for produkt in produkty %}
-                                    <div class="package-card" onclick="toggleProdukt(this)">
-                                        <input type="checkbox"
-                                               name="produkt_ids[]"
-                                               value="{{ produkt.id }}"
-                                               style="display:none;">
-                                        <div class="package-info">
-                                            <h4>{{ produkt.nazev }}</h4>
-                                            <p>{{ produkt.popis }}</p>
-                                        </div>
-                                        <div class="package-price">{{ produkt.doporucenaCena }} Kč/hod</div>
-                                    </div>
-                                {% endfor %}
+
+                            <div class="package-grid" id="dostupne-produkty-container">
+                                <p style="color: #6c757d; font-size: 14px; text-align: center; width: 100%;">
+                                    Načítám dostupné vybavení...
+                                </p>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -116,39 +108,91 @@
 
 {% block javascripts %}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        const hoursSelect = document.getElementById('hours-select');
+        const locationSelect = document.getElementById('location-select');
+        const container = document.getElementById('dostupne-produkty-container');
 
-            document.querySelectorAll('.package-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const checkbox = this.querySelector('input[type="checkbox"]');
-                    checkbox.checked = !checkbox.checked;
-                    this.classList.toggle('active', checkbox.checked);
-                    updateSouhrn();
+        hoursSelect.addEventListener('change', prepocitejCenu);
+        locationSelect.addEventListener('change', stahniProduktyZeServeru);
+
+        function stahniProduktyZeServeru() {
+            const staniceId = locationSelect.value;
+            if (!staniceId) return;
+
+            container.innerHTML = '<p>Načítám dostupné vybavení...</p>';
+
+            const urlSablona = "{{ path('api_stanice_vybaveni', {id: '999'}) }}";
+            const finalniUrl = urlSablona.replace('999', staniceId);
+
+            fetch(finalniUrl)
+                .then(odpoved => odpoved.json())
+                .then(data => {
+
+                    if (data.length === 0) {
+                        container.innerHTML = '<p style="color: red;">V této lokalitě není nic skladem.</p>';
+                        prepocitejCenu();
+                        return;
+                    }
+
+                    let vykresleneHtml = '';
+
+                    data.forEach(polozka => {
+                        vykresleneHtml += `
+                        <div class="package-card" data-cena="${polozka.cena}" onclick="kliknutiNaKartu(this)">
+                            <input type="checkbox" name="skladova_polozka_ids[]" value="${polozka.skladova_polozka_id}" style="display:none;">
+                            <div class="package-info">
+                                <h4>${polozka.nazev}</h4>
+                                <p>${polozka.popis}</p>
+                                <small style="color: green;">Skladem: ${polozka.mnozstvi} ks</small>
+                            </div>
+                            <div class="package-price">${polozka.cena} Kč/hod</div>
+                        </div>
+                    `;
+                    });
+
+                    container.innerHTML = vykresleneHtml;
+                    prepocitejCenu();
                 });
+        }
+
+        function kliknutiNaKartu(kartaElement) {
+            const checkbox = kartaElement.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            kartaElement.classList.toggle('active', checkbox.checked);
+            prepocitejCenu();
+        }
+
+        function prepocitejCenu() {
+             const vybraneKarty = document.querySelectorAll('.package-card.active');
+            const pocetHodin = parseInt(hoursSelect.value) || 1;
+
+            let celkovaCena = 0;
+            let htmlSouhrn = '';
+
+            vybraneKarty.forEach(karta => {
+                const nazev = karta.querySelector('h4').textContent;
+                const cena = parseFloat(karta.getAttribute('data-cena'));
+
+                celkovaCena += cena;
+
+                htmlSouhrn += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                              <span>${nazev}</span>
+                              <span>${cena} Kč</span>
+                           </div>`;
             });
 
-            function updateSouhrn() {
-                const vybrane = document.querySelectorAll('.package-card.active');
-                const souhrn = document.getElementById('summary-produkty');
-
-                souhrn.innerHTML = '';
-
-                if (vybrane.length === 0) {
-                    souhrn.innerHTML = '<span style="color: #adb5bd;">Žádný produkt vybrán</span>';
-                    return;
-                }
-
-                vybrane.forEach(card => {
-                    const nazev = card.querySelector('h4').textContent;
-                    const cena = card.querySelector('.package-price').textContent;
-                    const radek = document.createElement('div');
-                    radek.style.cssText = 'display:flex; justify-content:space-between; margin-bottom:8px;';
-                    radek.innerHTML = `<span>${nazev}</span><span>${cena}</span>`;
-                    souhrn.appendChild(radek);
-                });
+            if (vybraneKarty.length === 0) {
+                document.getElementById('summary-produkty').innerHTML = '<span style="color: gray;">Žádný produkt vybrán</span>';
+            } else {
+                document.getElementById('summary-produkty').innerHTML = htmlSouhrn;
             }
 
-            updateSouhrn();
-        });
+            document.getElementById('total-price').textContent = (celkovaCena * pocetHodin) + ' Kč';
+
+            document.getElementById('summary-location').textContent = locationSelect.options[locationSelect.selectedIndex].text;
+        }
+
+        stahniProduktyZeServeru();
+
     </script>
 {% endblock %}

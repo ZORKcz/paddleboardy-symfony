@@ -16,6 +16,23 @@ class SkladovaPolozkaRepository extends ServiceEntityRepository
         parent::__construct($registry, SkladovaPolozka::class);
     }
 
+    /**
+     * Vezme vsechny skladove polozky pro danou stanici, ktere jsou dostupne
+     */
+    public function najdiDostupneProStanici(int $staniceId): array
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.produkt', 'p')
+            ->addSelect('p')
+            ->andWhere('s.stanice = :staniceId')
+            ->andWhere('s.mnozstvi_skladem > 0')
+            ->setParameter('staniceId', $staniceId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
     //    /**
     //     * @return SkladovaPolozka[] Returns an array of SkladovaPolozka objects
     //     */
